@@ -7,6 +7,8 @@ import services.EditorTexto;
 
 public class FactorySuite {
 	
+	//Factory method gerencia quem está sendo solicitado pelas View
+	
 	public FactorySuite () {}
 	
 	public ArquivoPrototype getFile(String arq, String FileP,String FileN,

@@ -6,6 +6,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -33,8 +34,8 @@ public class ViewGerar extends JFrame implements ActionListener{
 	JTextField Path = new JTextField();
 	JTextField Propietario = new JTextField();
 	JTextField Email = new JTextField();
-	JTextField AutoImp = new JTextField();
-	JTextField AutoCopia = new JTextField();
+	JComboBox<String> AutoImp = new JComboBox<String>();
+	JComboBox<String> AutoCopia = new JComboBox<String>();
 	
 	//Area Conteudo
 	JTextArea conteudo = new JTextArea();
@@ -109,6 +110,13 @@ public class ViewGerar extends JFrame implements ActionListener{
 		menu.add(apresentacao);
 		menu.add(planilha);
 		
+		//seletor
+		AutoImp.addItem("Selecione a Opção");
+		AutoImp.addItem("Sim");
+		AutoImp.addItem("Não");		
+		AutoCopia.addItem("Selecione a Opção");
+		AutoCopia.addItem("Sim");
+		AutoCopia.addItem("Não");
 		
 		//campos
 		this.add(Nome);
@@ -166,14 +174,16 @@ public class ViewGerar extends JFrame implements ActionListener{
 	
 	public void CopiarDados(String tipo, String path,String nomeArq,
 			String Ppt, String Email, String AutoI, String AutoC, String conteudo) {
-		
+		int idImp = AutoI == "Sim" ? 1 : 2;
+		int idCop = AutoC == "Sim" ? 1 : 2;
+		System.out.println(idImp);
 		LTipoArq.setText(tipo);
 		this.Nome.setText(nomeArq);
 		this.Path.setText(path);
 		this.Propietario.setText(Ppt);
 		this.Email.setText(Email);
-		this.AutoImp.setText(AutoI);
-		this.AutoCopia.setText(AutoC);
+		this.AutoImp.setSelectedIndex(idImp);
+		this.AutoCopia.setSelectedIndex(idCop);;
 		this.conteudo.setText(conteudo);
 	}
 	
@@ -190,15 +200,16 @@ public class ViewGerar extends JFrame implements ActionListener{
 		
 		int confirm = 0;
 		
+		//Botão salvar trabalha direto com a factorySuite
 		if (e.getSource() == Salvar) {
 			if(Nome.getText().isBlank()|| Path.getText().isBlank() || Propietario.getText().isBlank() || Email.getText().isBlank()
-					|| AutoImp.getText().isBlank() || AutoCopia.getText().isBlank()) {
+					|| AutoImp.getSelectedItem().equals("Selecione a Opção") || AutoCopia.getSelectedItem().equals("Selecione a Opção") ) {
 				
 				JOptionPane.showMessageDialog(null, "Preencha os campos");				
 			}
 			else {
 				ap = fs.getFile(LTipoArq.getText(), Path.getText(), Nome.getText(), Propietario.getText(),
-							Email.getText(), AutoImp.getText(), AutoCopia.getText(), conteudo.getText());
+							Email.getText(), String.valueOf(AutoImp.getSelectedItem()), String.valueOf(AutoCopia.getSelectedItem()), conteudo.getText());
 				JOptionPane.showMessageDialog(null, "Salvo com Sucesso");
 				System.out.println("----Log de Salvamento----\n" +ap.GerarArquivo());
 				Abrir.setEnabled(true);
@@ -206,6 +217,8 @@ public class ViewGerar extends JFrame implements ActionListener{
 				Limpar.setEnabled(true);
 			}
 		}
+		
+		// Apartir daqui, o Clone é utilizado para poder fazer copias e abrir arquivos gerados.
 		else if (e.getSource() == Abrir) {
 			ViewAbrir va = new ViewAbrir();
 			if(LTipoArq.getText().equalsIgnoreCase("Texto")) {
@@ -258,56 +271,69 @@ public class ViewGerar extends JFrame implements ActionListener{
 			}
 		}
 		else if (e.getSource() == Copiar) {
-			ViewGerar vg = new ViewGerar();
-			if(LTipoArq.getText().equalsIgnoreCase("Texto")) {
-				Clonar = et.Clonar();
-				Clonar.setNomearquivo(ap.getNomearquivo());
-				Clonar.setPath(ap.getPath());
-				Clonar.setProprietario(ap.getProprietario());
-				Clonar.setEmail(ap.getEmail());
-				Clonar.setAutorizacaoimp(ap.getAutorizacaoimp());
-				Clonar.setAutorizacaocopia(ap.getAutorizacaocopia());
-				Clonar.setConteudo(ap.getConteudo());
+			
+			
+			if(ap.getAutorizacaocopia().equalsIgnoreCase("sim")) {
 				
-				vg.CopiarDados(LTipoArq.getText(), Clonar.getPath(), Clonar.getNomearquivo(), Clonar.getProprietario(),
-						Clonar.getEmail(), Clonar.getAutorizacaoimp(), Clonar.getAutorizacaocopia(), Clonar.getConteudo());
-				
-				System.out.println("----Log de Copia----\n" +Clonar.Copiar());
-			}
-			else if(LTipoArq.getText().equalsIgnoreCase("Planilha")) {
-				Clonar = ep.Clonar();
-				Clonar.setNomearquivo(ap.getNomearquivo());
-				Clonar.setPath(ap.getPath());
-				Clonar.setProprietario(ap.getProprietario());
-				Clonar.setEmail(ap.getEmail());
-				Clonar.setAutorizacaoimp(ap.getAutorizacaoimp());
-				Clonar.setAutorizacaocopia(ap.getAutorizacaocopia());
-				Clonar.setConteudo(ap.getConteudo());
-				
-				vg.CopiarDados(LTipoArq.getText(), Clonar.getPath(), Clonar.getNomearquivo(), Clonar.getProprietario(),
-						Clonar.getEmail(), Clonar.getAutorizacaoimp(), Clonar.getAutorizacaocopia(), Clonar.getConteudo());
-				
-				System.out.println("----Log de Copia----\n" +Clonar.Copiar());
-			}
-			else if (LTipoArq.getText().equalsIgnoreCase("Apresentação")) {
-				Clonar = ea.Clonar();
-				Clonar.setNomearquivo(ap.getNomearquivo());
-				Clonar.setPath(ap.getPath());
-				Clonar.setProprietario(ap.getProprietario());
-				Clonar.setEmail(ap.getEmail());
-				Clonar.setAutorizacaoimp(ap.getAutorizacaoimp());
-				Clonar.setAutorizacaocopia(ap.getAutorizacaocopia());
-				Clonar.setConteudo(ap.getConteudo());
-				
-				vg.CopiarDados(LTipoArq.getText(), Clonar.getPath(), Clonar.getNomearquivo(), Clonar.getProprietario(),
-						Clonar.getEmail(), Clonar.getAutorizacaoimp(), Clonar.getAutorizacaocopia(), Clonar.getConteudo());
-								
-				System.out.println("----Log de Copia----\n" +Clonar.Copiar());
-				
+				confirm = JOptionPane.showConfirmDialog(null, "Deseja Copiar ?");
+				if (confirm == JOptionPane.OK_OPTION){
+					ViewGerar vg = new ViewGerar();
+					if(LTipoArq.getText().equalsIgnoreCase("Texto")) {
+						Clonar = et.Clonar();
+						Clonar.setNomearquivo(ap.getNomearquivo());
+						Clonar.setPath(ap.getPath());
+						Clonar.setProprietario(ap.getProprietario());
+						Clonar.setEmail(ap.getEmail());
+						Clonar.setAutorizacaoimp(ap.getAutorizacaoimp());
+						Clonar.setAutorizacaocopia(ap.getAutorizacaocopia());
+						Clonar.setConteudo(ap.getConteudo());
+						
+						vg.CopiarDados(LTipoArq.getText(), Clonar.getPath(), Clonar.getNomearquivo(), Clonar.getProprietario(),
+								Clonar.getEmail(), Clonar.getAutorizacaoimp(), Clonar.getAutorizacaocopia(), Clonar.getConteudo());
+						
+						System.out.println("----Log de Copia----\n" +Clonar.Copiar());
+					}
+					else if(LTipoArq.getText().equalsIgnoreCase("Planilha")) {
+						Clonar = ep.Clonar();
+						Clonar.setNomearquivo(ap.getNomearquivo());
+						Clonar.setPath(ap.getPath());
+						Clonar.setProprietario(ap.getProprietario());
+						Clonar.setEmail(ap.getEmail());
+						Clonar.setAutorizacaoimp(ap.getAutorizacaoimp());
+						Clonar.setAutorizacaocopia(ap.getAutorizacaocopia());
+						Clonar.setConteudo(ap.getConteudo());
+						
+						vg.CopiarDados(LTipoArq.getText(), Clonar.getPath(), Clonar.getNomearquivo(), Clonar.getProprietario(),
+								Clonar.getEmail(), Clonar.getAutorizacaoimp(), Clonar.getAutorizacaocopia(), Clonar.getConteudo());
+						
+						System.out.println("----Log de Copia----\n" +Clonar.Copiar());
+					}
+					else if (LTipoArq.getText().equalsIgnoreCase("Apresentação")) {
+						Clonar = ea.Clonar();
+						Clonar.setNomearquivo(ap.getNomearquivo());
+						Clonar.setPath(ap.getPath());
+						Clonar.setProprietario(ap.getProprietario());
+						Clonar.setEmail(ap.getEmail());
+						Clonar.setAutorizacaoimp(ap.getAutorizacaoimp());
+						Clonar.setAutorizacaocopia(ap.getAutorizacaocopia());
+						Clonar.setConteudo(ap.getConteudo());
+						
+						vg.CopiarDados(LTipoArq.getText(), Clonar.getPath(), Clonar.getNomearquivo(), Clonar.getProprietario(),
+								Clonar.getEmail(), Clonar.getAutorizacaoimp(), Clonar.getAutorizacaocopia(), Clonar.getConteudo());
+										
+						System.out.println("----Log de Copia----\n" +Clonar.Copiar());
+						
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Tipo Inexistente");
+					}
+				}
 			}
 			else {
-				JOptionPane.showMessageDialog(null, "Tipo Inexistente");
+				JOptionPane.showMessageDialog(null, "Autorização Negada para Copia");
 			}
+			
+			
 		}
 		
 		else if(e.getSource() == texto) {
@@ -343,9 +369,9 @@ public class ViewGerar extends JFrame implements ActionListener{
 		}
 	}
 		
-		else {
-			LimparCampos();
-		}
+	else {
+		LimparCampos();
+	}
 		
 	}
 	
@@ -355,8 +381,8 @@ public class ViewGerar extends JFrame implements ActionListener{
 		Path.setText("");
 		Propietario.setText("");
 		Email.setText("");
-		AutoImp.setText("");
-		AutoCopia.setText("");
+		AutoImp.setSelectedItem(0);
+		AutoCopia.setSelectedItem(0);
 		conteudo.setText("");
 		
 		Abrir.setEnabled(false);

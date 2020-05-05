@@ -23,7 +23,7 @@ public class ViewAbrir extends JFrame implements ActionListener{
 	
 	FactorySuite fs = new FactorySuite();
 	ArquivoPrototype ap;
-	ArquivoPrototype Clonar;
+
 	
 	//Area
 	JTextArea txtArea = new JTextArea();
@@ -139,8 +139,7 @@ public class ViewAbrir extends JFrame implements ActionListener{
 		}
 		else if(e.getSource() == Copiar) {
 			if(ap.getAutorizacaocopia().equalsIgnoreCase("sim")) {
-				JOptionPane.showConfirmDialog(null, "Deseja Copiar ?");
-					confirm = JOptionPane.showConfirmDialog(null, "Deseja Imprimir ?");
+					confirm = JOptionPane.showConfirmDialog(null, "Deseja Copiar ?");
 				if (confirm == JOptionPane.OK_OPTION){
 					System.out.println("----Log de Copia----\n" +ap.Copiar());
 				}

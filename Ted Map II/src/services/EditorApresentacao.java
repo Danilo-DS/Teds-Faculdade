@@ -48,7 +48,7 @@ public class EditorApresentacao extends ArquivoPrototype{
 	@Override
 	public String GerarArquivo() {
 		return (">> Gerando Arquivo de Apresentação\n"+ FileInfo() + "\n"
-				+ "\n>> " + getConteudo()
+				+ "\n>>Conteúdo: " + getConteudo()
 				+ "\n>> Arquivo Gerado\n"
 				+ SalvaArquivo());
 	}

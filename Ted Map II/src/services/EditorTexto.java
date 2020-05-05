@@ -47,7 +47,7 @@ public class EditorTexto extends ArquivoPrototype {
 	public String GerarArquivo() {
 		// TODO Auto-generated method stub
 		return (">> Gerando Arquivo de Texto\n"+ FileInfo() + "\n"
-				+ "\n>> " + getConteudo()
+				+ "\n>>Conteúdo: " + getConteudo()
 				+ "\n>> Arquivo Gerado\n"
 				+ SalvaArquivo());
 	}

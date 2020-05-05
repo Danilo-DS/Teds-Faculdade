@@ -4,7 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
+//Class Prototyp, contem todas as caracteristica de um arquivo
 public abstract class ArquivoPrototype {
 	protected String nomearquivo;
 	protected String path;

@@ -66,6 +66,8 @@ public class View extends JFrame implements ActionListener{
 		
 		//Ação Abir
 		texto.addActionListener(this);
+		planilha.addActionListener(this);
+		apresentacao.addActionListener(this);
 		
 		//Ação Gerar
 		Gtexto.addActionListener(this);
@@ -99,11 +101,11 @@ public class View extends JFrame implements ActionListener{
 		}
 		else if(e.getSource() == apresentacao) {
 			ViewAbrir va = new ViewAbrir();
-			va.Run(texto.getText(), JOptionPane.showInputDialog("Path"), JOptionPane.showInputDialog("Nome Arquivo"));
+			va.Run(apresentacao.getText(), JOptionPane.showInputDialog("Path"), JOptionPane.showInputDialog("Nome Arquivo"));
 		}
 		else if(e.getSource() == planilha) {
 			ViewAbrir va = new ViewAbrir();
-			va.Run(texto.getText(), JOptionPane.showInputDialog("Path"), JOptionPane.showInputDialog("Nome Arquivo"));
+			va.Run(planilha.getText(), JOptionPane.showInputDialog("Path"), JOptionPane.showInputDialog("Nome Arquivo"));
 		}
 		else if(e.getSource() == Gtexto) {
 			ViewGerar vg = new ViewGerar();
