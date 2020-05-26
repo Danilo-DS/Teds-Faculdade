@@ -23,9 +23,11 @@ Utilizar classes para realizar as mudanças de estados, prevendo todos os estado
 
 
 ### Consequências: 
-#Diminui a utilização de estruturas de controle muito extenças.
-#Aumenta a coesão.
-#Diminui o Acoplamento.
+Diminui a utilização de estruturas de controle muito extenças.
+
+Aumenta a coesão.
+
+Diminui o Acoplamento.
 
 ### Exemplo: 
 
