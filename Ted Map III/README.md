@@ -11,11 +11,8 @@ Danilo A. Costa da Silva
 
 
 ### Padrão Comportamental: 
-State
+## State
 O padrão State(Estado) é utilizado quando queremos manipular o comportamento de uma objeto de acordo com o seu estado atual.
-
-## Padrão XXX
-
 ### Problema: 
 
 Mudar estado de objetos sem a utilização de estruturas de condicionais, como fazer isso ?
@@ -26,9 +23,9 @@ Utilizar classes para realizar as mudanças de estados, prevendo todos os estado
 
 
 ### Consequências: 
-Diminui a utilização de estruturas de controle muito extenças.
-Aumenta a coesão.
-Diminui o Acoplamento.
+#Diminui a utilização de estruturas de controle muito extenças.
+#Aumenta a coesão.
+#Diminui o Acoplamento.
 
 ### Exemplo: 
 
