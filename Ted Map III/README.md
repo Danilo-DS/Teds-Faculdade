@@ -18,7 +18,7 @@ O padrão State(Estado) é utilizado quando queremos manipular o comportamento d
 
 ### Problema: 
 
-Mudar estado de objetos sem a utilização de estruturas de repetições, como fazer isso ?
+Mudar estado de objetos sem a utilização de estruturas de condicionais, como fazer isso ?
 
 
 ### Solução: 
