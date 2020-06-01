@@ -7,21 +7,20 @@ public class Arquivo extends File {
 		this.tamanho = tamanho;
 	}
 	
+	public Arquivo() {	}
+	
 	@Override
-	public String exibir() {
-		super.exibir();
+	public String toString() {
 		return "Nome do Arquivo: " + nome + " Tamanho: " + tamanho(tamanho);
 	}
 	
 	@Override
 	public String tamanho(int t) {
 		
-		if(t > 1024) {
+		if(t > 1023) {
 			return (t +"MB");
 		}
-		else {
-			return (t +"KB");
-		}
+		return super.tamanho(t);
 	}
 	
 }

@@ -1,16 +1,14 @@
 package modelC;
 
-import java.util.ArrayList;
-
-import java.util.List;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class PastaComposta extends File{
 	
-	private List<String> pasta;
-	int t = 0; //tamanho
-	
+	HashMap<String, File> p;	
 	public PastaComposta(String nm) {
-		pasta =  new ArrayList<String>();
+		p = new LinkedHashMap<>();
 		this.nome = nm;
 	}
 	
@@ -19,36 +17,45 @@ public class PastaComposta extends File{
 	@Override
 	public void adicionar(File f) {
 		super.adicionar(f);
-		pasta.add(f.exibir());
+		p.put(f.nome + " " + f.tamanho(f.tamanho), f);
+		this.tamanho += f.tamanho;
 		System.out.println("Adicionado a " + this.nome);
 	}
-	
 	@Override
 	public void listarArquivos() {
-		super.exibir();
-		System.out.println("---> Lista Arquivos da Pasta:" + this.nome);
+		super.listarArquivos();
+		System.out.println("---> Lista Arquivos da Pasta:" + this.nome + " Tamanho Geral " + tamanho(this.tamanho)); 
 		
-		for (int i = 0; i < pasta.size(); i++) {			
-			System.out.println(pasta.get(i));		
-		}	
+		for (Map.Entry<String, File> key : p.entrySet()) {
+			System.out.println(key.getKey());
+		}
 	}
 	
+	@Override
+	public String tamanho(int t) {
+		if(t > 1023) 
+			return (t +"MB");
+		
+		return super.tamanho(t);
+	}
 	
-	 public String exibir() { 
-		 if (pasta.size() != 0 ) { return "--->Arquivos da " + this.nome
-		 +"\n" + pasta; 
-		 } else return super.exibir(); 
-	 }
+	@Override
+	public String toString() {
+		if (p.size() != 0)
+			return p.toString();
 
+		return super.toString();
+	}
+		
 	@Override
 	public String excluir(String nome) {
-		for (int i = 0; i < pasta.size(); i++) {
-			if(pasta.get(i).indexOf(nome) != -1) {
-				pasta.remove(i);
-				return "Arquivo "+nome+" Deletado com Sucesso";
+		for (Map.Entry<String, File> arq : p.entrySet()) {
+			if(arq.getKey().indexOf(nome) != -1) {
+				this.tamanho = this.tamanho - arq.getValue().tamanho;
+				p.remove(arq.getKey(), arq.getValue());
+				return "Arquivo"+nome+" Deletado com Sucesso";
 			}
 		}
 		return super.excluir(nome);
 	}
-	
 }

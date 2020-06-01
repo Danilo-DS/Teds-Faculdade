@@ -11,9 +11,12 @@ public class File {
 	
 	public void listarArquivos() {}
 	
-	public String exibir() {return "Nenhum Arquivo ou Pasta Encontrado";}
-	
-	public String tamanho(int t) {return "0kb";}
+	@Override
+	public String toString() {
+		return "Nenhum Arquivo ou Pasta Encontrado";
+	}
+
+	public String tamanho(int t) {return t + "kb";}
 	
 	public String excluir(String nome) {return "Arquivo " +nome+ " não Encontrado";}
 }
